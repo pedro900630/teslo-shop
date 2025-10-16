@@ -3,10 +3,12 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ProductImage } from './';
 
-@Entity()
+@Entity({ name: 'products' })
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -32,7 +34,9 @@ export class Product {
   })
   slug: string;
 
-  @Column('int', { default: 0 })
+  @Column('int', {
+    default: 0,
+  })
   stock: number;
 
   @Column('text', {
@@ -42,19 +46,37 @@ export class Product {
 
   @Column('text')
   gender: string;
-  //tags
-  //images
+
+  @Column('text', {
+    array: true,
+    default: [],
+  })
+  tags: string[];
+
+  // images
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+    eager: true,
+  })
+  images?: ProductImage[];
 
   @BeforeInsert()
   checkSlugInsert() {
     if (!this.slug) {
       this.slug = this.title;
     }
+
     this.slug = this.slug
       .toLowerCase()
       .replaceAll(' ', '_')
       .replaceAll("'", '');
   }
 
-  // @BeforeUpdate()
+  @BeforeUpdate()
+  checkSlugUpdate() {
+    this.slug = this.slug
+      .toLowerCase()
+      .replaceAll(' ', '_')
+      .replaceAll("'", '');
+  }
 }
