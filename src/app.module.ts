@@ -3,6 +3,7 @@ import { envs } from './config/envs';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ProductsModule } from './products/products.module';
 import { SeedModule } from './seed/seed.module';
+import { FilesModule } from './files/files.module';
 
 console.log({
   type: 'postgres',
@@ -29,6 +30,7 @@ console.log({
     }),
     ProductsModule,
     SeedModule,
+    FilesModule,
   ],
   controllers: [],
   providers: [],
