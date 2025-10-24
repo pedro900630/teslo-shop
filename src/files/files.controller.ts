@@ -1,6 +1,8 @@
 import {
   BadRequestException,
   Controller,
+  Get,
+  Param,
   Post,
   Res,
   UploadedFile,
@@ -11,42 +13,51 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Response } from 'express';
 import { fileFilter } from './helpers/file-filter.helper';
 import { diskStorage } from 'multer';
+import { fileNamer } from './helpers/file-namer.helper';
 
 @Controller('files')
 export class FilesController {
   constructor(private readonly filesService: FilesService) {}
+
+  @Get('product/:imageName')
+  findProductImage(
+    @Param('imageName') imageName: string,
+    @Res() res: Response,
+  ) {
+    const path = this.filesService.getStaticProductImage(imageName);
+    res.sendFile(path);
+  }
 
   @Post('product')
   @UseInterceptors(
     FileInterceptor('file', {
       fileFilter,
       storage: diskStorage({
-        destination: './static/uploads',
-        // filename: (req, file, cb) => {
-        //   const originalName = file.originalname;
-        //   const fileExtension = originalName.split('.').pop();
-        //   const fileName = originalName
-        //     .replace(`.${fileExtension}`, '')
-        //     .toLowerCase()
-        //     .replace(/\s+/g, '-');
-        //   cb(null, `${fileName}-${Date.now()}.${fileExtension}`);
-        // },
+        destination: './static/products',
+        filename: fileNamer,
       }),
     }),
   )
   uploadProductImage(
     @UploadedFile() file: Express.Multer.File,
-    @Res() res: Response,
+    // @Res() res: Response,
   ) {
     if (!file) {
       throw new BadRequestException('Make sure that the file is an image');
     }
 
-    res.setHeader('Content-Type', file.mimetype);
-    res.setHeader(
-      'Content-Disposition',
-      `inline; filename="${file.originalname}"`,
-    );
-    res.send(file.buffer);
+    // console.log(file);
+    const secureUrl = file.filename;
+
+    return {
+      secureUrl,
+    };
+
+    // res.setHeader('Content-Type', file.mimetype);
+    // res.setHeader(
+    //   'Content-Disposition',
+    //   `inline; filename="${file.originalname}"`,
+    // );
+    // res.send(file.buffer);
   }
 }
