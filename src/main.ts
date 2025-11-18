@@ -8,12 +8,12 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
-  
+
   // Servir archivos estáticos desde la carpeta 'public'
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public/',
   });
-  
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
