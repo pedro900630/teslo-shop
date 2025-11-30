@@ -10,12 +10,15 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto';
+import { JwtPayload } from './interfaces/jwt-payload.interface';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -29,7 +32,7 @@ export class AuthService {
       // user.password = bcrypt.hashSync(createUserDto.password, 10);
       await this.userRepository.save(user);
       delete user.password;
-      return user;
+      return { ...user, token: this.getJWTToken({ email: user.email }) };
     } catch (error) {
       this.handleDBErrors(error);
     }
@@ -53,7 +56,12 @@ export class AuthService {
 
     // TODO : return JWT
 
-    return user;
+    return { ...user, token: this.getJWTToken({ email: user.email }) };
+  }
+
+  private getJWTToken(payload: JwtPayload) {
+    // Return a signed JWT token with AUTH Module Config
+    return this.jwtService.sign(payload);
   }
 
   private handleDBErrors(error: any): never {

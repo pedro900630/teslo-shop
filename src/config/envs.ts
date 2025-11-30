@@ -1,13 +1,14 @@
 import 'dotenv/config';
 import * as Joi from 'joi';
 
-interface EnvVars {
+export interface EnvVars {
   PORT: number;
   DB_USER: string;
   DB_NAME: string;
   DB_HOST: string;
   DB_PORT: number;
   DB_PASSWORD: string;
+  JWT_SECRET: string;
 }
 
 const envsSchema = Joi.object({
@@ -17,6 +18,7 @@ const envsSchema = Joi.object({
   DB_HOST: Joi.string().required(),
   DB_PORT: Joi.number().required(),
   DB_PASSWORD: Joi.string().required(),
+  JWT_SECRET: Joi.string().required(),
 }).unknown(true);
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -34,4 +36,5 @@ export const envs = {
   db_name: envVars.DB_NAME,
   db_port: envVars.DB_PORT,
   db_password: envVars.DB_PASSWORD,
+  jwt_secret: envVars.JWT_SECRET,
 };
