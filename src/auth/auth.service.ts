@@ -32,7 +32,7 @@ export class AuthService {
       // user.password = bcrypt.hashSync(createUserDto.password, 10);
       await this.userRepository.save(user);
       delete user.password;
-      return { ...user, token: this.getJWTToken({ email: user.email }) };
+      return { ...user, token: this.getJWTToken({ id: user.id }) };
     } catch (error) {
       this.handleDBErrors(error);
     }
@@ -42,7 +42,7 @@ export class AuthService {
     const { email, password } = loginUserDto;
     const user = await this.userRepository.findOne({
       where: { email },
-      select: { email: true, password: true, fullName: true },
+      select: { id: true, password: true, fullName: true },
     });
 
     if (!user) {
@@ -56,7 +56,7 @@ export class AuthService {
 
     // TODO : return JWT
 
-    return { ...user, token: this.getJWTToken({ email: user.email }) };
+    return { ...user, token: this.getJWTToken({ id: user.id }) };
   }
 
   private getJWTToken(payload: JwtPayload) {
