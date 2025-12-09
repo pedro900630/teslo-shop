@@ -16,12 +16,12 @@ export class UserRoleGuard implements CanActivate {
   canActivate(
     ctx: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
-    const validRoles: string[] = this.reflector.get<string[] | undefined>(
+    const validRoles = this.reflector.get<string[]>(
       META_ROLES,
       ctx.getHandler(),
     );
 
-    if (!validRoles) {
+    if (!validRoles?.length) {
       return true;
     }
 
