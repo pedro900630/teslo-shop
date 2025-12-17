@@ -15,10 +15,81 @@ type ValidSizes = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXXL';
 type ValidTypes = 'shirts' | 'pants' | 'hoodies' | 'hats';
 
 interface SeedData {
+  users: SeedUser[];
   products: SeedProduct[];
 }
 
+interface SeedUser {
+  email: string;
+  password: string;
+  fullName: string;
+  roles: string[];
+}
+
 export const initialData: SeedData = {
+  users: [
+    {
+      email: 'test1@google.com',
+      password: 'Abc123',
+      fullName: 'Test One',
+      roles: ['admin'],
+    },
+    {
+      email: 'test2@google.com',
+      password: 'Abc123',
+      fullName: 'Test Two',
+      roles: ['user', 'super-user'],
+    },
+    {
+      email: 'test3@google.com',
+      password: 'Abc123',
+      fullName: 'Test Three',
+      roles: ['user'],
+    },
+    {
+      email: 'test4@google.com',
+      password: 'Abc123',
+      fullName: 'Test Four',
+      roles: ['user'],
+    },
+    {
+      email: 'test5@google.com',
+      password: 'Abc123',
+      fullName: 'Test Five',
+      roles: ['admin', 'user'],
+    },
+    {
+      email: 'test6@google.com',
+      password: 'Abc123',
+      fullName: 'Test Six',
+      roles: ['user'],
+    },
+    {
+      email: 'test7@google.com',
+      password: 'Abc123',
+      fullName: 'Test Seven',
+      roles: ['super-user'],
+    },
+    {
+      email: 'test8@google.com',
+      password: 'Abc123',
+      fullName: 'Test Eight',
+      roles: ['user'],
+    },
+    {
+      email: 'test9@google.com',
+      password: 'Abc123',
+      fullName: 'Test Nine',
+      roles: ['admin'],
+    },
+    {
+      email: 'test10@google.com',
+      password: 'Abc123',
+      fullName: 'Test Ten',
+      roles: ['user'],
+    },
+  ],
+
   products: [
     {
       description:

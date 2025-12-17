@@ -6,8 +6,6 @@ import { SeedModule } from './seed/seed.module';
 import { FilesModule } from './files/files.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
-import { join } from 'path';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { AuthModule } from './auth/auth.module';
 
 console.log({

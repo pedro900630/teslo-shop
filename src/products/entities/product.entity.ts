@@ -3,10 +3,13 @@ import {
   BeforeUpdate,
   Column,
   Entity,
+  JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { ProductImage } from './';
+import { User } from 'src/auth/entities/user.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -59,6 +62,13 @@ export class Product {
     eager: true,
   })
   images?: ProductImage[];
+
+  // @Column({ type: 'uuid', nullable: false, name: 'user_id' })
+  // userId: string;
+
+  @ManyToOne(() => User, (user) => user.products)
+  // @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @BeforeInsert()
   checkSlugInsert() {
