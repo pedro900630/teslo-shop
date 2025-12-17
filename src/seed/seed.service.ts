@@ -4,6 +4,7 @@ import { initialData } from './data/seed-data';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities/user.entity';
 import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class SeedService {
@@ -23,12 +24,14 @@ export class SeedService {
     await this.productsService.deleteAllProducts();
     const queryBuilder = this.userRepository.createQueryBuilder();
     await queryBuilder.delete().where({}).execute();
-    // await this.userRepository.delete({}); // Delete all users
   }
 
   private async seedUsers() {
-    const users = initialData.users.map((userData) =>
-      this.userRepository.create(userData),
+    const users = initialData.users.map(({ password, ...userDataRest }) =>
+      this.userRepository.create({
+        ...userDataRest,
+        password: bcrypt.hashSync(password, 10),
+      }),
     );
     return await this.userRepository.save(users);
   }
@@ -37,7 +40,6 @@ export class SeedService {
     await this.productsService.deleteAllProducts();
 
     const products = initialData.products;
-    
 
     const insertPromises = [];
     for (const product of products) {
