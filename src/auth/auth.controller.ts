@@ -15,7 +15,6 @@ import { Auth, GetUser, RawHeader } from './decorators';
 import { UserRoleGuard } from './guards/user-role/user-role.guard';
 import { RoleProtected } from './decorators/role-protected/role-protected.decorator';
 import { ValidRoles } from './interfaces';
-// import { RoleProtected } from './decorators/role-protected/role-protected.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -29,6 +28,12 @@ export class AuthController {
   @Post('login')
   loginUser(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
+  }
+
+  @Get('check-status')
+  @UseGuards(AuthGuard())
+  checkAuthStatus(@GetUser() user: User) {
+    return this.authService.checkAuthStatus(user);
   }
 
   @Get('private')

@@ -12,6 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -57,6 +58,13 @@ export class AuthService {
     // TODO : return JWT
 
     return { ...user, token: this.getJWTToken({ id: user.id }) };
+  }
+
+  checkAuthStatus(user: User) {
+    return {
+      ...user,
+      token: this.getJWTToken({ id: user.id }),
+    };
   }
 
   private getJWTToken(payload: JwtPayload) {
