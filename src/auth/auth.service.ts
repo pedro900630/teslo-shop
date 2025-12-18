@@ -12,7 +12,6 @@ import * as bcrypt from 'bcrypt';
 import { LoginUserDto } from './dto';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { log } from 'console';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +29,6 @@ export class AuthService {
         password: bcrypt.hashSync(password, 10),
       });
 
-      // user.password = bcrypt.hashSync(createUserDto.password, 10);
       await this.userRepository.save(user);
       delete user.password;
       return { ...user, token: this.getJWTToken({ id: user.id }) };
