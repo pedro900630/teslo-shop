@@ -1,5 +1,17 @@
 {
     "cSpell.words": [
         "Teslo"
-    ]
+    ],
+    "files.watcherExclude": {
+    "**/node_modules/**": true,
+    "**/dist/**": true,
+    "**/.git/**": true
+  },
+  "files.exclude": {
+    "**/dist": true,
+    "**/build": true
+  },
+  "typescript.tsserver.maxTsServerMemory": 4096,
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "extensions.autoUpdate": false
 }

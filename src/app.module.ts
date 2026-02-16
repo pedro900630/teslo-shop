@@ -7,6 +7,7 @@ import { FilesModule } from './files/files.module';
 import { ConfigModule } from '@nestjs/config';
 import { CommonModule } from './common/common.module';
 import { AuthModule } from './auth/auth.module';
+import { MessageWsModule } from './message-ws/message-ws.module';
 
 // console.log({
 //   type: 'postgres',
@@ -37,6 +38,7 @@ import { AuthModule } from './auth/auth.module';
     FilesModule,
     CommonModule,
     AuthModule,
+    MessageWsModule,
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..', 'public'),
     // }),

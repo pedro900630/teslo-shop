@@ -10,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.setGlobalPrefix('api');
 
+  // app.enableCors();
+
   // Servir archivos estáticos desde la carpeta 'public'
   app.useStaticAssets(join(__dirname, '..', 'public'), {
     prefix: '/public/',
