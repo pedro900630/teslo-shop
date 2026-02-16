@@ -1,11 +1,13 @@
 import {
   OnGatewayConnection,
   OnGatewayDisconnect,
+  SubscribeMessage,
   WebSocketGateway,
   WebSocketServer,
 } from '@nestjs/websockets';
 import { MessageWsService } from './message-ws.service';
 import { Server, Socket } from 'socket.io';
+import { NewMessageDto } from './dtos/new-message.dto';
 
 @WebSocketGateway({ cors: true, namespace: '/' })
 // Comment: This is namespace  by  default '/'
@@ -33,5 +35,14 @@ export class MessageWsGateway
       'clients-updated',
       this.messageWsService.getConnectedClients(),
     );
+  }
+
+  @SubscribeMessage('message-from-client')
+  handleMessageFromClient(client: Socket, payload: NewMessageDto) {
+    console.log({ payload, clientId: client.id });
+    this.wss.emit('message-from-server', {
+      fullName: 'Soy yo, el server',
+      payload,
+    });
   }
 }
