@@ -39,10 +39,30 @@ export class MessageWsGateway
 
   @SubscribeMessage('message-from-client')
   handleMessageFromClient(client: Socket, payload: NewMessageDto) {
-    console.log({ payload, clientId: client.id });
+    // console.log({ payload, clientId: client.id });
+    // this.wss.emit('message-from-server', {
+    //   fullName: 'Soy yo, el server',
+    //   payload,
+    // });
+    // ! Emite Solo al cliente que envió el mensaje
+    // client.emit('message-from-server', {
+    //   fullName: 'Soy yo, el server',
+    //   payload,
+    // });
+    // ! Emite a todos los clientes excepto al que envió el mensaje
+    // client.broadcast.emit('message-from-server', {
+    //   fullName: 'Soy yo, el server',
+    //   payload,
+    // });
+    // ! Emite a todos los clientes incluyendo al que envió el mensaje
     this.wss.emit('message-from-server', {
       fullName: 'Soy yo, el server',
-      payload,
+      message: payload.message || 'no-message',
     });
+
+    // this.wss.emit('message-from-server', {
+    //   fullName: 'Soy yo, el server',
+    //   payload,
+    // });
   }
 }
