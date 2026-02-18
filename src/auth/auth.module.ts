@@ -28,6 +28,6 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     }),
   ],
   // Expose PassportModule so downstream modules keep the default jwt strategy
-  exports: [TypeOrmModule, JwtStrategy, PassportModule],
+  exports: [TypeOrmModule, JwtStrategy, PassportModule, JwtModule],
 })
 export class AuthModule {}
