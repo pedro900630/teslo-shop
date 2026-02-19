@@ -41,7 +41,7 @@ export class SeedService {
 
     const products = initialData.products;
 
-    const insertPromises = [];
+    const insertPromises: Promise<unknown>[] = [];
     for (const product of products) {
       insertPromises.push(this.productsService.create(product, user));
     }

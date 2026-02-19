@@ -30,8 +30,11 @@ export class AuthService {
       });
 
       await this.userRepository.save(user);
-      delete user.password;
-      return { ...user, token: this.getJWTToken({ id: user.id }) };
+      const { password: _, ...userWithoutPassword } = user;
+      return {
+        ...userWithoutPassword,
+        token: this.getJWTToken({ id: user.id }),
+      };
     } catch (error) {
       this.handleDBErrors(error);
     }
@@ -51,11 +54,12 @@ export class AuthService {
     if (!bcrypt.compareSync(password, user.password)) {
       throw new UnauthorizedException('Credentials are not valid (password)');
     }
-    delete user.password;
+
+    const { password: _, ...userWithoutPassword } = user;
 
     // TODO : return JWT
 
-    return { ...user, token: this.getJWTToken({ id: user.id }) };
+    return { ...userWithoutPassword, token: this.getJWTToken({ id: user.id }) };
   }
 
   checkAuthStatus(user: User) {

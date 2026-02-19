@@ -19,7 +19,7 @@ export class Product {
     uniqueItems: true,
   })
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @ApiProperty({
     example: 'T-Shirt Teslo',
@@ -29,7 +29,7 @@ export class Product {
   @Column('text', {
     unique: true,
   })
-  title: string;
+  title!: string;
 
   @ApiProperty({
     example: 0,
@@ -38,7 +38,7 @@ export class Product {
   @Column('float', {
     default: 0,
   })
-  price: number;
+  price!: number;
 
   @ApiProperty({
     example: 'This is a teslo t-shirt',
@@ -49,45 +49,39 @@ export class Product {
     type: 'text',
     nullable: true,
   })
-  description: string;
+  description!: string;
 
-  @ApiProperty(
-    {
-      example: 't-shirt-teslo',
-      description: 'Product slug - for SEO',
-      uniqueItems: true,
-    }
-  )
+  @ApiProperty({
+    example: 't-shirt-teslo',
+    description: 'Product slug - for SEO',
+    uniqueItems: true,
+  })
   @Column('text', {
     unique: true,
   })
-  slug: string;
+  slug!: string;
 
-  @ApiProperty(
-    {
-      example: 10,
-      description: 'Product stock',
-    }
-  )
+  @ApiProperty({
+    example: 10,
+    description: 'Product stock',
+  })
   @Column('int', {
     default: 0,
   })
-  stock: number;
+  stock!: number;
 
   @ApiProperty()
   @Column('text', {
     array: true,
   })
-  sizes: string[];
+  sizes!: string[];
 
-  @ApiProperty(
-    {
-      example: 'men',
-      description: 'Product gender',
-    }
-  )
+  @ApiProperty({
+    example: 'men',
+    description: 'Product gender',
+  })
   @Column('text')
-  gender: string;
+  gender!: string;
 
   @ApiProperty({
     example: ['shirt', 't-shirt', 'clothes'],
@@ -97,14 +91,14 @@ export class Product {
     array: true,
     default: [],
   })
-  tags: string[];
+  tags!: string[];
 
   // images
-  @ApiProperty({ type: () => ProductImage,
+  @ApiProperty({
+    type: () => ProductImage,
     isArray: true,
-    description: 'Product images'
-    
-   })
+    description: 'Product images',
+  })
   @OneToMany(() => ProductImage, (productImage) => productImage.product, {
     cascade: true,
     eager: true,
@@ -116,7 +110,7 @@ export class Product {
 
   @ManyToOne(() => User, (user) => user.products)
   // @JoinColumn({ name: 'user_id' })
-  user: User;
+  user!: User;
 
   @BeforeInsert()
   checkSlugInsert() {

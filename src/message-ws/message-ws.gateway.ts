@@ -16,7 +16,7 @@ import { JwtPayload } from 'src/auth/interfaces';
 export class MessageWsGateway
   implements OnGatewayConnection, OnGatewayDisconnect
 {
-  @WebSocketServer() wss: Server;
+  @WebSocketServer() wss!: Server;
 
   constructor(
     private readonly messageWsService: MessageWsService,

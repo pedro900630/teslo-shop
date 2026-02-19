@@ -17,7 +17,7 @@ export class CreateProductDto {
   })
   @IsString()
   @MinLength(1)
-  title: string;
+  title!: string;
 
   @ApiProperty()
   @IsNumber()
@@ -44,17 +44,17 @@ export class CreateProductDto {
   @ApiProperty()
   @IsString({ each: true })
   @IsArray()
-  sizes: string[];
+  sizes!: string[];
 
   @ApiProperty()
   @IsIn(['men', 'women', 'kid', 'unisex'])
-  gender: string;
+  gender!: string;
 
   @ApiProperty()
   @IsString({ each: true })
   @IsArray()
   @IsOptional()
-  tags: string[];
+  tags!: string[];
 
   @ApiProperty()
   @IsString({ each: true })
